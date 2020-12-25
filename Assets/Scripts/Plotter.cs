@@ -57,7 +57,7 @@ public class Plotter : MonoBehaviour
 
                 x2 += a / numberOfPoints;
             }
-            t += 100;
+            t += 10;
         }
     }
 }
