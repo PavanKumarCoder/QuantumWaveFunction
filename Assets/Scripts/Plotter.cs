@@ -11,7 +11,8 @@ public class Plotter : MonoBehaviour
     }
 
     List<GameObject> objects = new List<GameObject>();
-    public float t = 0;
+    public static float t = 0;
+    public static float[] nArray = new float[] { 1, 2 };
 
     // Update is called once per frame
     void Update()
@@ -24,7 +25,7 @@ public class Plotter : MonoBehaviour
             }
             objects.Clear();
 
-            float[] nArray = new float[] { 1 };
+            
             float numberOfPoints = 200;
             Complex[] cumulitavePsi = new Complex[(int)numberOfPoints];
             float a = 4;
