@@ -23,6 +23,7 @@ public class Plotter : MonoBehaviour
             objects.Clear();
 
             
+
             float startAngle = 0;
             float endAngle = 360 + 180;
             float startDistance = 0;
