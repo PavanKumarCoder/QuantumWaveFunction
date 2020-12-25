@@ -38,6 +38,12 @@ public class Plotter : MonoBehaviour
                 GameObject.Find("Sphere").GetComponent<Renderer>().material.color = Color.cyan;
                 objects.Add(amplitudeClone.gameObject);
                 amplitudeClone.transform.localPosition = new UnityEngine.Vector3(x, (float)psi.Real, (float)psi.Imaginary);
+
+                var probabilityClone = Instantiate(GameObject.Find("Sphere2"));
+                objects.Add(probabilityClone.gameObject);
+                probabilityClone.transform.localPosition = new UnityEngine.Vector3(x, Mathf.Pow((float)psi.Magnitude,2));
+                GameObject.Find("Sphere2").GetComponent<Renderer>().material.color = Color.black;
+
                 x += a / numberOfPoints;
             }
             t += 10;
