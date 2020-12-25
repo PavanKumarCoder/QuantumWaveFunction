@@ -23,34 +23,45 @@ public class Plotter : MonoBehaviour
             }
             objects.Clear();
 
+            float numberOfPoints = 100;
+            float[] nArray = new float[] { 3 };
+            float[] cumulitaveAmplitudeY = new float[(int)numberOfPoints];
 
-            float n = 2;
-            float startAngle = 0;
-            float endAngle = n * 180;
+            foreach (var n in nArray)
+            {
+                float startAngle = 0;
+                float endAngle = n * 180;
+                
+                float currentAngle = startAngle;
+                for (float i = 0; i < numberOfPoints; i++)
+                {
+                    float amplitudeY = Mathf.Sin(currentAngle * Mathf.PI / 180f);
+                    cumulitaveAmplitudeY[(int)i] += amplitudeY;
+                    currentAngle += (endAngle - startAngle) / numberOfPoints;
+                }
+            }
+
             float startDistance = 0;
             float endDistance = 4;
-            float numberOfPoints = 100;
             float x = startDistance;
-            float currentAngle = startAngle;
             for (float i = 0; i < numberOfPoints; i++)
             {
                 var amplitudeClone = Instantiate(GameObject.Find("Sphere"));
                 objects.Add(amplitudeClone.gameObject);
-                float amplitudeY = Mathf.Sin(currentAngle * Mathf.PI / 180f);
-                amplitudeClone.transform.localPosition = new Vector3(x, amplitudeY);
+                amplitudeClone.transform.localPosition = new Vector3(x, cumulitaveAmplitudeY[(int)i]);
                 amplitudeClone.transform.RotateAround(Vector3.zero, Vector3.right, rotationAngleDelta);
                 GameObject.Find("Sphere").GetComponent<Renderer>().material.color = Color.cyan;
 
 
                 var probabilityClone = Instantiate(GameObject.Find("Sphere2"));
                 objects.Add(probabilityClone.gameObject);
-                probabilityClone.transform.localPosition = new Vector3(x, Mathf.Pow(amplitudeY, 2));
+                probabilityClone.transform.localPosition = new Vector3(x, Mathf.Pow(cumulitaveAmplitudeY[(int)i], 2));
                 GameObject.Find("Sphere2").GetComponent<Renderer>().material.color = Color.black;
 
                 x += (endDistance - startDistance) / numberOfPoints;
-                currentAngle += (endAngle - startAngle) / numberOfPoints;
             }
             rotationAngleDelta += 10;
+
         }
     }
 }
