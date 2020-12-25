@@ -7,10 +7,11 @@ public class Plotter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.GetComponent<Renderer>().material.color = Color.cyan;
     }
+
     float rotationAngleDelta = 0;
     List<GameObject> objects = new List<GameObject>();
+
     // Update is called once per frame
     void Update()
     {
@@ -33,11 +34,19 @@ public class Plotter : MonoBehaviour
             float currentAngle = startAngle;
             for (float i = 0; i < numberOfPoints; i++)
             {
-                var clone = Instantiate(this);
-                objects.Add(clone.gameObject);
-                float y = Mathf.Sin(currentAngle * Mathf.PI / 180f);
-                clone.transform.localPosition = new Vector3(x, y);
-                clone.transform.RotateAround(Vector3.zero, Vector3.right, rotationAngleDelta);
+                var amplitudeClone = Instantiate(GameObject.Find("Sphere"));
+                objects.Add(amplitudeClone.gameObject);
+                float amplitudeY = Mathf.Sin(currentAngle * Mathf.PI / 180f);
+                amplitudeClone.transform.localPosition = new Vector3(x, amplitudeY);
+                amplitudeClone.transform.RotateAround(Vector3.zero, Vector3.right, rotationAngleDelta);
+                GameObject.Find("Sphere").GetComponent<Renderer>().material.color = Color.cyan;
+
+
+                var probabilityClone = Instantiate(GameObject.Find("Sphere2"));
+                objects.Add(probabilityClone.gameObject);
+                probabilityClone.transform.localPosition = new Vector3(x, Mathf.Pow(amplitudeY, 2));
+                GameObject.Find("Sphere2").GetComponent<Renderer>().material.color = Color.black;
+
                 x += (endDistance - startDistance) / numberOfPoints;
                 currentAngle += (endAngle - startAngle) / numberOfPoints;
             }
