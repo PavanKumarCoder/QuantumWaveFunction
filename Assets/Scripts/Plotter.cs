@@ -10,7 +10,6 @@ public class Plotter : MonoBehaviour
     {
     }
 
-    float rotationAngleDelta = 0;
     List<GameObject> objects = new List<GameObject>();
     float t = 0;
 
@@ -25,7 +24,7 @@ public class Plotter : MonoBehaviour
             }
             objects.Clear();
 
-            float[] nArray = new float[] { 1,2 };
+            float[] nArray = new float[] { 1,4 };
             float numberOfPoints = 200;
             Complex[] cumulitavePsi = new Complex[(int)numberOfPoints];
             float a = 4;
@@ -57,7 +56,7 @@ public class Plotter : MonoBehaviour
 
                 x2 += a / numberOfPoints;
             }
-            t += 10;
+            t += 100;
 
             //float numberOfPoints = 100;
             //float[] nArray = new float[] { 1 };
