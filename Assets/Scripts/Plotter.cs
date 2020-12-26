@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 
 public class Plotter : MonoBehaviour
@@ -7,10 +8,12 @@ public class Plotter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.GetComponent<Renderer>().material.color = Color.cyan;
     }
-    float rotationAngleDelta = 0;
+
     List<GameObject> objects = new List<GameObject>();
+    public static float t = 0;
+    public static float[] nArray = new float[] { 1, 2 };
+
     // Update is called once per frame
     void Update()
     {
@@ -23,24 +26,38 @@ public class Plotter : MonoBehaviour
             objects.Clear();
 
             
-            float startAngle = 0;
-            float endAngle = 360 + 180;
-            float startDistance = 0;
-            float endDistance = 4;
-            float numberOfPoints = 100;
-            float x = startDistance;
-            float currentAngle = startAngle;
-            for (float i = 0; i < numberOfPoints; i++)
+            float numberOfPoints = 200;
+            Complex[] cumulitavePsi = new Complex[(int)numberOfPoints];
+            float a = 4;
+            float hBar = 0.001f;
+            float m = 1;
+            foreach (var n in nArray)
             {
-                var clone = Instantiate(this);
-                objects.Add(clone.gameObject);
-                float y = Mathf.Sin(currentAngle * Mathf.PI / 180f);
-                clone.transform.localPosition = new Vector3(x, y);
-                clone.transform.RotateAround(Vector3.zero, Vector3.right, rotationAngleDelta);
-                x += (endDistance - startDistance) / numberOfPoints;
-                currentAngle += (endAngle - startAngle) / numberOfPoints;
+                float x = 0;
+                for (int i = 0; i < numberOfPoints; i++)
+                {
+                    Complex psi = Mathf.Sqrt(2 / a) * Mathf.Sin(n * (Mathf.PI / a) * x) * Complex.Exp((-Complex.ImaginaryOne * Mathf.Pow(n, 2) * Mathf.Pow(Mathf.PI, 2) * hBar) / (2 * m * Mathf.Pow(a, 2)) * t);
+                    cumulitavePsi[i] += psi;
+                    x += a / numberOfPoints;
+                }
             }
-            rotationAngleDelta += 10;
+
+            float x2 = 0;
+            for (int i = 0; i < numberOfPoints; i++)
+            {
+                var amplitudeClone = Instantiate(GameObject.Find("Sphere"));
+                GameObject.Find("Sphere").GetComponent<Renderer>().material.color = Color.cyan;
+                objects.Add(amplitudeClone.gameObject);
+                amplitudeClone.transform.localPosition = new UnityEngine.Vector3(x2, (float)cumulitavePsi[i].Real, (float)cumulitavePsi[i].Imaginary);
+
+                var probabilityClone = Instantiate(GameObject.Find("Sphere2"));
+                objects.Add(probabilityClone.gameObject);
+                probabilityClone.transform.localPosition = new UnityEngine.Vector3(x2, Mathf.Pow((float)cumulitavePsi[i].Magnitude, 2));
+                GameObject.Find("Sphere2").GetComponent<Renderer>().material.color = Color.black;
+
+                x2 += a / numberOfPoints;
+            }
+            t += 10;
         }
     }
 }
