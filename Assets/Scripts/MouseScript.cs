@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MouseScript : MonoBehaviour
 {
-    float speed = 5.0f;
+    float speed = 10.0f;
     float sensitivity = 5f;
     float scrollSpeed = 1f;
     // Start is called before the first frame update
@@ -49,19 +49,18 @@ public class MouseScript : MonoBehaviour
             float mouseX = Input.GetAxis("Mouse X");
             transform.Rotate(new Vector3(-mouseY * sensitivity, mouseX * sensitivity, 0));
         }
-        //else
-        //{
-        //    if (Input.GetAxis("Mouse X") > 0)
-        //    {
-        //        transform.position += new Vector3(Input.GetAxisRaw("Mouse X") * Time.deltaTime * speed,
-        //                                   0.0f, Input.GetAxisRaw("Mouse Y") * Time.deltaTime * speed);
-        //    }
-
-        //    else if (Input.GetAxis("Mouse X") < 0)
-        //    {
-        //        transform.position += new Vector3(Input.GetAxisRaw("Mouse X") * Time.deltaTime * speed,
-        //                                   0.0f, Input.GetAxisRaw("Mouse Y") * Time.deltaTime * speed);
-        //    }
-        //}
+        else if (Input.GetMouseButton(1))
+        {
+            if (Input.GetAxis("Mouse X") > 0)
+            {
+                transform.position += new Vector3(Input.GetAxisRaw("Mouse X") * Time.deltaTime * speed,
+                                           Input.GetAxisRaw("Mouse Y") * Time.deltaTime * speed, 0f);
+            }
+            else if (Input.GetAxis("Mouse X") < 0)
+            {
+                transform.position += new Vector3(Input.GetAxisRaw("Mouse X") * Time.deltaTime * speed,
+                                           Input.GetAxisRaw("Mouse Y") * Time.deltaTime * speed, 0f);
+            }
+        }
     }
 }
