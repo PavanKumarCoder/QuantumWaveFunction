@@ -12,8 +12,9 @@ public class Plotter : MonoBehaviour
 
     List<GameObject> objects = new List<GameObject>();
     public static float t = 0;
-    public static float[] nArray = new float[] { 1 };
+    public static float[] nArray = new float[] { 3 };
     float maxTotalProbablity = 0;
+    float maxIndividualProbablity = 0;
 
     // Update is called once per frame
     void Update()
@@ -58,6 +59,10 @@ public class Plotter : MonoBehaviour
                 GameObject.Find("Sphere2").GetComponent<Renderer>().material.color = Color.black;
                 totalProbablity += Mathf.Pow((float)cumulitavePsi[i].Magnitude, 2) * (a/numberOfPoints);
                 x2 += a / numberOfPoints;
+                if(Mathf.Pow((float)cumulitavePsi[i].Magnitude, 2) > maxIndividualProbablity)
+                {
+                    maxIndividualProbablity = Mathf.Pow((float)cumulitavePsi[i].Magnitude, 2);
+                }
             }
             Debug.Log("TP:" + totalProbablity);
             if(totalProbablity > maxTotalProbablity)
@@ -65,6 +70,7 @@ public class Plotter : MonoBehaviour
                 maxTotalProbablity = totalProbablity;
             }
             Debug.Log("MTP:" + maxTotalProbablity);
+            Debug.Log("MIndiP:" + maxIndividualProbablity);
 
             t += 10;
         }
