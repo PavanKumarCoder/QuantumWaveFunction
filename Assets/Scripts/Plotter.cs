@@ -12,7 +12,7 @@ public class Plotter : MonoBehaviour
 
     List<GameObject> objects = new List<GameObject>();
     public static float t = 0;
-    public static float[] nArray = new float[] { 1, 2 };
+    public static float[] nArray = new float[] { 1,2 };
 
     // Update is called once per frame
     void Update()
@@ -36,7 +36,7 @@ public class Plotter : MonoBehaviour
                 float x = 0;
                 for (int i = 0; i < numberOfPoints; i++)
                 {
-                    Complex psi = Mathf.Sqrt(2 / a) * Mathf.Sin(n * (Mathf.PI / a) * x) * Complex.Exp((-Complex.ImaginaryOne * Mathf.Pow(n, 2) * Mathf.Pow(Mathf.PI, 2) * hBar) / (2 * m * Mathf.Pow(a, 2)) * t);
+                    Complex psi = (Mathf.Sqrt(2 / a) * Mathf.Sin(n * (Mathf.PI / a) * x) * Complex.Exp((-Complex.ImaginaryOne * Mathf.Pow(n, 2) * Mathf.Pow(Mathf.PI, 2) * hBar) / (2 * m * Mathf.Pow(a, 2)) * t))/Mathf.Sqrt(nArray.Length);
                     cumulitavePsi[i] += psi;
                     x += a / numberOfPoints;
                 }
