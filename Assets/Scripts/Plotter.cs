@@ -12,7 +12,8 @@ public class Plotter : MonoBehaviour
 
     List<GameObject> objects = new List<GameObject>();
     public static float t = 0;
-    public static float[] nArray = new float[] { 1,2 };
+    public static float[] nArray = new float[] { 1 };
+    float maxTotalProbablity = 0;
 
     // Update is called once per frame
     void Update()
@@ -25,7 +26,8 @@ public class Plotter : MonoBehaviour
             }
             objects.Clear();
 
-            
+            float totalProbablity = 0;
+
             float numberOfPoints = 200;
             Complex[] cumulitavePsi = new Complex[(int)numberOfPoints];
             float a = 4;
@@ -54,9 +56,16 @@ public class Plotter : MonoBehaviour
                 objects.Add(probabilityClone.gameObject);
                 probabilityClone.transform.localPosition = new UnityEngine.Vector3(x2, Mathf.Pow((float)cumulitavePsi[i].Magnitude, 2));
                 GameObject.Find("Sphere2").GetComponent<Renderer>().material.color = Color.black;
-
+                totalProbablity += Mathf.Pow((float)cumulitavePsi[i].Magnitude, 2) * (a/numberOfPoints);
                 x2 += a / numberOfPoints;
             }
+            Debug.Log("TP:" + totalProbablity);
+            if(totalProbablity > maxTotalProbablity)
+            {
+                maxTotalProbablity = totalProbablity;
+            }
+            Debug.Log("MTP:" + maxTotalProbablity);
+
             t += 10;
         }
     }
